@@ -5,7 +5,6 @@ import (
 	_ "github.com/FFFcomewhere/sk_object/pkg/bootstrap"
 	conf "github.com/FFFcomewhere/sk_object/pkg/config"
 	"github.com/go-kit/kit/log"
-	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	"github.com/openzipkin/zipkin-go"
 	zipkinhttp "github.com/openzipkin/zipkin-go/reporter/http"
 	_ "github.com/openzipkin/zipkin-go/reporter/recorder"
