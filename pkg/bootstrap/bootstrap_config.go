@@ -11,12 +11,18 @@ func init() {
 	initBootstrapConfig()
 	//读取yaml文件
 	//v := viper.New()
-	fmt.Println("yes")
-	fmt.Println(viper.GetViper())
+	fmt.Println("yes2")
+	//fmt.Println(viper.GetViper())
+	fmt.Println("1")
 
 	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("2")
 		fmt.Printf("err:%s\n", err)
+		fmt.Println("3")
+
 	}
+	fmt.Println("4")
+
 	if err := subParse("http", &HttpConfig); err != nil {
 		log.Fatal("Fail to parse Http config", err)
 	}
@@ -35,7 +41,7 @@ func initBootstrapConfig() {
 	//设置读取的配置文件
 	viper.SetConfigName("bootstrap")
 	//添加读取的配置文件路径
-	viper.AddConfigPath("./")
+	viper.AddConfigPath("./seckill")
 
 	//windows环境下为%GOPATH，linux环境下为$GOPATH
 	//viper.AddConfigPath("$GOPATH/src/")
