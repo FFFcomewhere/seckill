@@ -8,12 +8,12 @@ rpc:
 
 discover:
   Host: localhost
-  port: 30001
+  port: 8500
   instanceId: sk-core-localhost
   serviceName: sk-core # 要缓存sk-app
 
 
 config:
-  id: config-service
+  id: config-repo_1
   profile: "dev"
   label: "master"

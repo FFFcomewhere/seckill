@@ -3,7 +3,7 @@ syntax = "proto3";
 package pb;
 
 service ActivityService{
-    rpc secKill(SecRequest) returns (SecResponse){}
+    //rpc secKill(SecRequest) returns (SecResponse){}
 }
 
 

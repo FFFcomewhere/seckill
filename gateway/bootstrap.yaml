@@ -1,1 +1,32 @@
+http:
+  host: localhost
+  port: 9090
+
+
+discover:
+  Host: localhost
+  port: 8500
+  instanceId: gateway-service-localhost
+  serviceName: gateway
+
+
+config:
+  id: config-repo_1
+  profile: "dev"
+  label: "master"
+
+trace:
+  host: localhost
+  port: 9411
+  url: /api/v2/spans
+
+rpc:
+  port: 1111
+
+auth:
+  permitAll:
+    -
+      /oauth/**
+    -
+      /string/**
 

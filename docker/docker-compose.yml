@@ -1,0 +1,71 @@
+version: "3"
+
+#services mysql redis  etcd  zinkip rabbitmq etcd
+# consul:由于docker上安装无法过健康检查,故使用主机consul 端口为8500
+networks:
+  default:
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root_test"
+      - "MYSQL_DATABASE=user"
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "3396:3306"
+
+  redis:
+    container_name: redis
+    image: redis
+    networks:
+      - default
+    ports:
+      - "6378:6379"
+
+  zipkin:
+    container_name: zipkin_sk
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+
+  rabbitmq:
+    container_name: rabbitmq_sk
+    image: rabbitmq:management
+    environment:
+      - "RABBITMQ_DEFAULT_USER=guest"
+      - "RABBITMQ_DEFAULT_PASS=guest"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  etcd1:
+    image: quay.io/coreos/etcd
+    container_name: etcd1
+    command: etcd -name etcd1 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+    ports:
+      - 2379
+      - 2380
+    networks:
+      - default
+
+  etcd2:
+    image: quay.io/coreos/etcd
+    container_name: etcd2
+    command: etcd -name etcd2 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+    ports:
+      - 2379
+      - 2380
+    networks:
+      - default
+
+  etcd3:
+    image: quay.io/coreos/etcd
+    container_name: etcd3
+    command: etcd -name etcd3 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+    ports:
+      - 2379
+      - 2380
+    networks:
+      - default

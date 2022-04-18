@@ -1,4 +1,3 @@
-
 http:
   host: localhost
   port: 9019
@@ -11,12 +10,12 @@ rpc:
 
 discover:
   Host: localhost
-  port: 30001
+  port: 8500
   instanceId: oauth-service-localhost
   serviceName: oauth
   weight: 10
 
 config:
-  id: config-service
+  id: config-repo_1
   profile: "dev"
   label: "master"

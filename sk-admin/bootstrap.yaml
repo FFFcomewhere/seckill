@@ -9,12 +9,12 @@ rpc:
 
 discover:
   Host: localhost
-  port: 300001
+  port: 8500
   instanceId: sk-admin-localhost
   serviceName: sk-admin
 
 
 config:
-  id: config-service
+  id: config-repo_1
   profile: "dev"
   label: "master"
