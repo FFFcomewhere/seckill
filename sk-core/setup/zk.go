@@ -26,7 +26,7 @@ func InitZk() {
 
 //加载秒杀商品信息
 func loadSecConf(conn *zk.Conn) {
-	log.Printf("Connect zk sucess %s", conf.Etcd.EtcdSecProductKey)
+	log.Printf("Connect zk sucess %s", conf.Zk.SecProductKey)
 	v, _, err := conn.Get(conf.Zk.SecProductKey) //conf.Etcd.EtcdSecProductKey
 	if err != nil {
 		log.Printf("get product info failed, err : %v", err)

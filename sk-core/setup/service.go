@@ -2,8 +2,10 @@ package setup
 
 import (
 	"fmt"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
 	register "github.com/FFFcomewhere/seckill/pkg/discover"
 	"github.com/FFFcomewhere/seckill/sk-core/service/srv_redis"
+	"github.com/gin-gonic/gin"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,9 +16,19 @@ func RunService() {
 	srv_redis.RunProcess()
 	errChan := make(chan error)
 	//http server
+
 	go func() {
 		//启动前执行注册
 		register.Register()
+		//TODO 做测试 可以删除
+		r := gin.Default()
+		r.GET("/hello", func(context *gin.Context) {
+			context.JSON(200, gin.H{
+				"message": "hello core",
+			})
+		})
+
+		r.Run(":" + bootstrap.HttpConfig.Port)
 	}()
 
 	go func() {
@@ -29,5 +41,4 @@ func RunService() {
 	//服务退出取消注册
 	register.Deregister()
 	fmt.Println(error)
-
 }

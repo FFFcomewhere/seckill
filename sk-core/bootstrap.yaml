@@ -10,7 +10,7 @@ discover:
   Host: consul
   port: 8500
   instanceId: sk-core-localhost
-  serviceName: sk-core # 要缓存sk-app
+  serviceName: sk-core # 要缓存sk-core
   weight: 3
 
 config:
