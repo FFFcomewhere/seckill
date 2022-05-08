@@ -1,4 +1,4 @@
-create database user;
+#create database user;
 
 drop table if exists `user`;
 CREATE TABLE `user`

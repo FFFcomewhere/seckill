@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/pkg/client"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/pkg/client"
 	"testing"
 )
 

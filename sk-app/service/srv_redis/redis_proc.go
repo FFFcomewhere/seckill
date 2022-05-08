@@ -3,9 +3,9 @@ package srv_redis
 import (
 	"encoding/json"
 	"fmt"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/model"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-app/config"
+	"github.com/FFFcomewhere/seckill/sk-app/model"
 	"log"
 	"time"
 )

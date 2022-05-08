@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/FFFcomewhere/sk_object/sk-core/setup"
+	"github.com/FFFcomewhere/seckill/sk-core/setup"
 )
 
 func main() {

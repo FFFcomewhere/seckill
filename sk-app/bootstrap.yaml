@@ -1,21 +1,19 @@
-
 http:
-  host: localhost
+  host: sk-app
   port: 9031
 
-
 rpc:
-  host: localhost
+  host: sk-app
   port: 9132
 
 discover:
-  Host: localhost
+  Host: consul
   port: 8500
   instanceId: sk-app-localhost
   serviceName: sk-app # 要缓存sk-app
-
+  weight: 3
 
 config:
-  id: config-repo_1
+  id: config-server
   profile: "dev"
   label: "master"

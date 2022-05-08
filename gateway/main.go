@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	_ "github.com/FFFcomewhere/sk_object/gateway/config"
-	"github.com/FFFcomewhere/sk_object/gateway/route"
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	register "github.com/FFFcomewhere/sk_object/pkg/discover"
+	_ "github.com/FFFcomewhere/seckill/gateway/config"
+	"github.com/FFFcomewhere/seckill/gateway/route"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	register "github.com/FFFcomewhere/seckill/pkg/discover"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
 	"github.com/openzipkin/zipkin-go"
@@ -20,10 +20,9 @@ import (
 )
 
 func main() {
-
 	// 创建环境变量
 	var (
-		zipkinURL = flag.String("zipkin.url", "http://localhost:30004/api/v2/spans", "Zipkin server url")
+		zipkinURL = flag.String("zipkin.url", "http://zipkin:9411/api/v2/spans", "Zipkin server url")
 	)
 	flag.Parse()
 
@@ -55,7 +54,8 @@ func main() {
 			logger.Log("tracer", "Zipkin", "type", "Native", "URL", *zipkinURL)
 		}
 	}
-	register.Register()
+	//TODO 很奇怪 不清楚为什么要注册两次
+	//register.Register()
 
 	tags := map[string]string{
 		"component": "gateway_server",

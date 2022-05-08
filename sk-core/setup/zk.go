@@ -3,15 +3,15 @@ package setup
 import (
 	"encoding/json"
 	"fmt"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
 	"github.com/samuel/go-zookeeper/zk"
 	"log"
 	"time"
 )
 
-//初始化Etcd
+//初始化ZK
 func InitZk() {
-	var hosts = []string{"39.98.179.73:2181"}
+	var hosts = []string{"zk1:2181"}
 	option := zk.WithEventCallback(waitSecProductEvent)
 	conn, _, err := zk.Connect(hosts, time.Second*5, option)
 	if err != nil {

@@ -2,8 +2,8 @@ package transport
 
 import (
 	"context"
-	endpts "github.com/FFFcomewhere/sk_object/oauth-service/endpoint"
-	"github.com/FFFcomewhere/sk_object/pb"
+	endpts "github.com/FFFcomewhere/seckill/oauth-service/endpoint"
+	"github.com/FFFcomewhere/seckill/pb"
 	"github.com/go-kit/kit/transport/grpc"
 )
 

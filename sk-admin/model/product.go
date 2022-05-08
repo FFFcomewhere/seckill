@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/FFFcomewhere/sk_object/pkg/mysql"
+	"github.com/FFFcomewhere/seckill/pkg/mysql"
 	"github.com/gohouse/gorose/v2"
 	"log"
 )

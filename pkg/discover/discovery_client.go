@@ -1,7 +1,7 @@
 package discover
 
 import (
-	"github.com/FFFcomewhere/sk_object/pkg/common"
+	"github.com/FFFcomewhere/seckill/pkg/common"
 	"github.com/go-kit/kit/sd/consul"
 	"github.com/hashicorp/consul/api"
 	"log"

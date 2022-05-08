@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	endpts "github.com/FFFcomewhere/sk_object/user-service/endpoint"
+	endpts "github.com/FFFcomewhere/seckill/user-service/endpoint"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/tracing/zipkin"
 	"github.com/go-kit/kit/transport"

@@ -2,8 +2,8 @@ package conf
 
 import (
 	"fmt"
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	"github.com/FFFcomewhere/sk_object/pkg/discover"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	"github.com/FFFcomewhere/seckill/pkg/discover"
 	"github.com/go-kit/kit/log"
 	"github.com/openzipkin/zipkin-go"
 	zipkinhttp "github.com/openzipkin/zipkin-go/reporter/http"
@@ -36,12 +36,14 @@ func init() {
 		Logger.Log("Fail to load remote config", err)
 	}
 
-	//if err := Sub("mysql", &MysqlConfig); err != nil {
-	//	Logger.Log("Fail to parse mysql", err)
-	//}
+	if err := Sub("mysql", &MysqlConfig); err != nil {
+		Logger.Log("Fail to parse mysql", err)
+	}
+
 	if err := Sub("trace", &TraceConfig); err != nil {
 		Logger.Log("Fail to parse trace", err)
 	}
+
 	zipkinUrl := "http://" + TraceConfig.Host + ":" + TraceConfig.Port + TraceConfig.Url
 	Logger.Log("zipkin url", zipkinUrl)
 	initTracer(zipkinUrl)
@@ -91,7 +93,7 @@ func LoadRemoteConfig() (err error) {
 }
 
 func Sub(key string, value interface{}) error {
-	Logger.Log("配置文件的前缀为：", key)
+	Logger.Log("config 配置文件的前缀为：", key)
 	sub := viper.Sub(key)
 	sub.AutomaticEnv()
 	sub.SetEnvPrefix(key)

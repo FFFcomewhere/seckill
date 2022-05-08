@@ -1,8 +1,8 @@
 package setup
 
 import (
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/service/srv_redis"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-app/service/srv_redis"
 	"github.com/go-redis/redis"
 	"github.com/unknwon/com"
 	"log"
@@ -11,11 +11,11 @@ import (
 
 //初始化Redis
 func InitRedis() {
-	log.Printf("init redis %s", conf.Redis.Password)
+	//log.Printf("init redis %s", conf.Redis.Password)
 	client := redis.NewClient(&redis.Options{
-		Addr:     conf.Redis.Host,
-		Password: conf.Redis.Password,
-		DB:       conf.Redis.Db,
+		Addr: conf.Redis.Host,
+		//Password: conf.Redis.Password,
+		DB: conf.Redis.Db,
 	})
 
 	_, err := client.Ping().Result()
@@ -25,7 +25,9 @@ func InitRedis() {
 	log.Printf("init redis success")
 	conf.Redis.RedisConn = client
 
+	//加载黑名单
 	loadBlackList(client)
+	//初始化redis进程
 	initRedisProcess()
 }
 

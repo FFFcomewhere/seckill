@@ -1,7 +1,7 @@
 package conf
 
 import (
-	"github.com/FFFcomewhere/sk_object/sk-core/service/srv_limit"
+	"github.com/FFFcomewhere/seckill/sk-core/service/srv_limit"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/go-redis/redis"
 	"github.com/samuel/go-zookeeper/zk"

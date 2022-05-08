@@ -1,7 +1,7 @@
 package setup
 
 import (
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
 	"github.com/go-redis/redis"
 	"log"
 )
@@ -9,9 +9,9 @@ import (
 //初始化redis
 func InitRedis() {
 	client := redis.NewClient(&redis.Options{
-		Addr:     conf.Redis.Host,
-		Password: conf.Redis.Password,
-		DB:       conf.Redis.Db,
+		Addr: conf.Redis.Host,
+		//		Password: conf.Redis.Password,
+		DB: conf.Redis.Db,
 	})
 
 	_, err := client.Ping().Result()

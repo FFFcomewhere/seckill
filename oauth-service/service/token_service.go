@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"errors"
-	. "github.com/FFFcomewhere/sk_object/oauth-service/model"
+	. "github.com/FFFcomewhere/seckill/oauth-service/model"
 	"github.com/dgrijalva/jwt-go"
 	uuid "github.com/satori/go.uuid"
 	"net/http"

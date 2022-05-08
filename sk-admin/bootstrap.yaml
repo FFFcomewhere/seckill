@@ -1,20 +1,19 @@
-
 http:
-  host: localhost
+  host: sk-admin
   port: 9030
 
 rpc:
-  host: localhost
+  host: sk-admin
   port: 9132
 
 discover:
-  Host: localhost
+  Host: consul
   port: 8500
   instanceId: sk-admin-localhost
   serviceName: sk-admin
-
+  weight: 3
 
 config:
-  id: config-repo_1
+  id: config-server
   profile: "dev"
   label: "master"

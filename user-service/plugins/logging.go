@@ -2,7 +2,7 @@ package plugins
 
 import (
 	"context"
-	"github.com/FFFcomewhere/sk_object/user-service/service"
+	"github.com/FFFcomewhere/seckill/user-service/service"
 	"github.com/go-kit/kit/log"
 	"time"
 )

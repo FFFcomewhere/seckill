@@ -1,8 +1,8 @@
 package plugins
 
 import (
-	"github.com/FFFcomewhere/sk_object/sk-admin/model"
-	"github.com/FFFcomewhere/sk_object/sk-admin/service"
+	"github.com/FFFcomewhere/seckill/sk-admin/model"
+	"github.com/FFFcomewhere/seckill/sk-admin/service"
 	"github.com/go-kit/kit/log"
 	"github.com/gohouse/gorose/v2"
 	"time"

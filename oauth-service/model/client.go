@@ -2,7 +2,7 @@ package model
 
 import (
 	"encoding/json"
-	"github.com/FFFcomewhere/sk_object/pkg/mysql"
+	"github.com/FFFcomewhere/seckill/pkg/mysql"
 	"log"
 )
 

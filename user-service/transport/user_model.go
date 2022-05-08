@@ -2,8 +2,8 @@ package transport
 
 import (
 	"context"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/user-service/endpoint"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/user-service/endpoint"
 )
 
 func EncodeGRPCUserRequest(_ context.Context, r interface{}) (interface{}, error) {

@@ -1,7 +1,7 @@
 package setup
 
 import (
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
 	"github.com/coreos/etcd/clientv3"
 	"log"
 	"time"

@@ -2,8 +2,8 @@ package srv_limit
 
 import (
 	"fmt"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/model"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-app/model"
 	"log"
 	"sync"
 )
@@ -48,7 +48,10 @@ func AntiSpam(req *model.SecRequest) (err error) {
 				secLimit: &SecLimit{},
 				minLimit: &MinLimit{},
 			}
-			SecLimitMgrVars.UserLimitMap[req.ClientAddr] = limit
+			//TODO 修改了一个报错
+			//SecLimitMgrVars.UserLimitMap[req.ClientAddr] = limit
+			SecLimitMgrVars.UserLimitMap[req.UserId] = limit
+
 		}
 
 		secIdCount = limit.secLimit.Count(req.AccessTime) //获取该秒内该用户访问次数

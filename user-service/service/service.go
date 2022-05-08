@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"github.com/FFFcomewhere/sk_object/user-service/model"
+	"github.com/FFFcomewhere/seckill/user-service/model"
 	"log"
 )
 

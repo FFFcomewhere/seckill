@@ -1,10 +1,10 @@
 package config
 
 import (
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	_ "github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/model"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	_ "github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-app/model"
 	"github.com/go-kit/kit/log"
 	"github.com/openzipkin/zipkin-go"
 	zipkinhttp "github.com/openzipkin/zipkin-go/reporter/http"

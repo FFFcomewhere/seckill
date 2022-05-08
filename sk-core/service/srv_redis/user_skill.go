@@ -3,10 +3,10 @@ package srv_redis
 import (
 	"crypto/md5"
 	"fmt"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-core/config"
-	"github.com/FFFcomewhere/sk_object/sk-core/service/srv_err"
-	"github.com/FFFcomewhere/sk_object/sk-core/service/srv_user"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-core/config"
+	"github.com/FFFcomewhere/seckill/sk-core/service/srv_err"
+	"github.com/FFFcomewhere/seckill/sk-core/service/srv_user"
 	"log"
 	"time"
 )
@@ -35,6 +35,7 @@ func HandleUser() {
 }
 
 func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
+	//上读写锁
 	config.SecLayerCtx.RWSecProductLock.RLock()
 	defer config.SecLayerCtx.RWSecProductLock.RUnlock()
 
@@ -66,6 +67,7 @@ func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
 	historyCount := userHistory.GetProductBuyCount(req.ProductId)
 	config.SecLayerCtx.HistoryMapLock.Unlock()
 
+	//已购买
 	if historyCount >= product.OnePersonBuyLimit {
 		res.Code = srv_err.ErrAlreadyBuy
 		return
@@ -73,6 +75,7 @@ func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
 
 	curSoldCount := config.SecLayerCtx.ProductCountMgr.Count(req.ProductId)
 
+	//以售完
 	if curSoldCount >= product.Total {
 		res.Code = srv_err.ErrSoldout
 		product.Status = srv_err.ProductStatusSoldout
@@ -81,6 +84,7 @@ func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
 
 	//curRate := rand.Float64()
 	curRate := 0.1
+	//请重试 即没有成功抢到
 	fmt.Println(curRate, product.BuyRate)
 	if curRate > product.BuyRate {
 		res.Code = srv_err.ErrRetry
@@ -91,7 +95,7 @@ func HandleSeckill(req *config.SecRequest) (res *config.SecResult, err error) {
 	config.SecLayerCtx.ProductCountMgr.Add(req.ProductId, 1)
 
 	//用户Id、商品id、当前时间、密钥
-
+	//购买成功
 	res.Code = srv_err.ErrSecKillSucc
 	tokenData := fmt.Sprintf("userId=%d&productId=%d&timestamp=%d&security=%s", req.UserId, req.ProductId, nowTime, conf.SecKill.TokenPassWd)
 	res.Token = fmt.Sprintf("%x", md5.Sum([]byte(tokenData))) //MD5加密

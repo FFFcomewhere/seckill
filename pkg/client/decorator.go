@@ -3,10 +3,10 @@ package client
 import (
 	"context"
 	"errors"
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/pkg/discover"
-	"github.com/FFFcomewhere/sk_object/pkg/loadbalance"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/pkg/discover"
+	"github.com/FFFcomewhere/seckill/pkg/loadbalance"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/opentracing/opentracing-go"
@@ -17,6 +17,7 @@ import (
 	"time"
 )
 
+//装饰者模式
 var (
 	ErrRPCService = errors.New("no rpc service")
 )
@@ -41,20 +42,24 @@ type InvokerAfterFunc func() (err error)
 
 type InvokerBeforeFunc func() (err error)
 
+//装饰者模式调用
 func (manager *DefaultClientManager) DecoratorInvoke(path string, hystrixName string,
 	tracer opentracing.Tracer, ctx context.Context, inputVal interface{}, outVal interface{}) (err error) {
-
+	//回调函数
 	for _, fn := range manager.before {
 		if err = fn(); err != nil {
 			return err
 		}
 	}
 
+	//短路保护
 	if err = hystrix.Do(hystrixName, func() error {
-
+		//服务发现
 		instances := manager.discoveryClient.DiscoverServices(manager.serviceName, manager.logger)
+		//负载均衡
 		if instance, err := manager.loadBalance.SelectService(instances); err == nil {
 			if instance.GrpcPort > 0 {
+				//获取rpc端口,并发送rpc请求
 				if conn, err := grpc.Dial(instance.Host+":"+strconv.Itoa(instance.GrpcPort), grpc.WithInsecure(),
 					grpc.WithUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(genTracer(tracer), otgrpc.LogPayloads())), grpc.WithTimeout(1*time.Second)); err == nil {
 					if err = conn.Invoke(ctx, path, inputVal, outVal); err != nil {
@@ -84,6 +89,7 @@ func (manager *DefaultClientManager) DecoratorInvoke(path string, hystrixName st
 	}
 }
 
+//链路
 func genTracer(tracer opentracing.Tracer) opentracing.Tracer {
 	if tracer != nil {
 		return tracer

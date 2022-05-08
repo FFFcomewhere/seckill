@@ -1,0 +1,328 @@
+version: "3.5"
+
+# 网络配置
+networks:
+  host:
+services:
+################my services####################################
+
+  string-service:             # 自定义容器名称
+    build:
+      context: .
+      dockerfile: string-service/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: string-service
+    hostname: string-service
+    image: string-service
+    ports:
+      - "${STRING_SERVICE_PORT}:10085"
+    networks:
+      - host
+
+  gateway:             # 自定义容器名称
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: gateway
+    hostname: gateway
+    image: gateway
+    ports:
+      - "${GATEWAY_PORT}:9090"
+    networks:
+      - host
+
+  oauth-service: # 自定义容器名称
+    build:
+      context: .
+      dockerfile: oauth-service/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: oauth-service
+    hostname: oauth-service
+    image: oauth-service
+    networks:
+      - host
+
+  sk-admin: # 自定义容器名称
+    build:
+      context: .
+      dockerfile: sk-admin/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: sk-admin
+    hostname: sk-admin
+    image: sk-admin
+    networks:
+      - host
+
+  sk-app: # 自定义容器名称
+    build:
+      context: .
+      dockerfile: sk-app/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: sk-app
+    hostname: sk-app
+    image: sk-app
+    networks:
+      - host
+
+  sk-core: # 自定义容器名称
+    build:
+      context: .
+      dockerfile: sk-core/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: sk-core
+    hostname: sk-core
+    image: sk-core
+    networks:
+      - host
+
+  user-service: # 自定义容器名称
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile # 指定构建使用的 Dockerfile 文件
+    container_name: user-service
+    hostname: user-service
+    image: user-service
+    networks:
+      - host
+
+##################offical services#####################
+  consul:
+    container_name: consul
+    hostname: consul
+    image: consul:1.6
+    ports:
+      - "${CONSUL_PORT}:8500"
+    command: agent -dev -client 0.0.0.0
+    networks:
+      - host
+
+#  consul1:
+#    container_name: consul1
+#    image: consul:1.6
+#    ports:
+#      - 8501:8500
+#    hostname: consulserver
+#    restart: always
+##    command: agent -server -bootstrap -ui -node=1 -client='0.0.0.0'
+#    command: agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0
+#    networks:
+#      - host
+
+#  consul2:
+#    container_name: consul2
+#    image: consul:latest
+#    ports:
+#      - 8501:8500
+#    restart: always
+#    command: agent -server -ui -bind=0.0.0.0 -client=0.0.0.0 -join 172.17.0.4
+#    networks:
+#      - host
+#
+#  consul3:
+#    container_name: consul3
+#    image: consul:latest
+#    ports:
+#      - 8502:8500
+#    restart: always
+#    command: agent -server -ui -bind=0.0.0.0 -client=0.0.0.0 -join 172.17.0.4
+#    networks:
+#      - host
+
+
+  mysql:
+    container_name: mysql
+    hostname: mysql
+    image: mysql
+    environment:
+      - TZ=${TZ}
+     # - MYSQL_USER=${MYSQL_USERNAME}                  # 设置 Mysql 用户名称
+     # - MYSQL_PASSWORD=${MYSQL_PASSWORD}              # 设置 Mysql 用户密码
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}   # 设置 Mysql root 用户密码
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    volumes:
+      - ${DATA_PATH_HOST}/mysql1:/var/lib/mysql        # 引用 .env 配置中 DATA_PATH_HOST 变量，将宿主机上存放 Mysql 数据的目录挂载到容器中 /var/lib/mysql 目录
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - host
+
+
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${DATA_PATH_HOST}/redis:/data                 # 引用 .env 配置中 DATA_PATH_HOST 变量，将宿主机上存放 Redis 数据的目录挂载到容器中 /data 目录
+    ports:
+      - "${REDIS_PORT}:6379"
+#     command:
+#       --requirepass ${REDIS_PASSWORD}                   #设置redis 密码
+    networks:
+      - host
+
+
+  zk1:
+    container_name: zk1
+    hostname: zk1
+    image: zookeeper:3.4.11
+    ports:
+      - "${ZK1_CLIENT_PORT}:2181"
+      - "${ZK1_CMD_PORT}:8080"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zk1:2888:3888 server.2=zk2:2888:3888 server.3=zk3:2888:3888
+    volumes:
+      - ${DATA_PATH_HOST}/zk/zk1/data:/data
+      - ${DATA_PATH_HOST}/zk/zk1/datalog:/datalog
+    networks:
+      - host
+
+  zk2:
+    container_name: zk2
+    hostname: zk2
+    image: zookeeper:3.4.11
+    ports:
+      - "${ZK2_CLIENT_PORT}:2181"
+      - "${ZK2_CMD_PORT}:8080"
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zk1:2888:3888 server.2=zk2:2888:3888 server.3=zk3:2888:3888
+    volumes:
+      - ${DATA_PATH_HOST}/zk/zk2/data:/data
+      - ${DATA_PATH_HOST}/zk/zk2/datalog:/datalog
+    networks:
+      - host
+
+  zk3:
+    container_name: zk3
+    hostname: zk3
+    image: zookeeper:3.4.11
+    ports:
+      - "${ZK3_CLIENT_PORT}:2181"
+      - "${ZK3_CMD_PORT}:8080"
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zk1:2888:3888 server.2=zk2:2888:3888 server.3=zk3:2888:3888
+    volumes:
+      - ${DATA_PATH_HOST}/zk/zk3/data:/data
+      - ${DATA_PATH_HOST}/zk/zk3/datalog:/datalog
+    networks:
+      - host
+
+#   etcd1:
+#     container_name: etcd1
+#     image:  quay.io/coreos/etcd
+#     command: etcd -name etcd1 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+#     ports:
+#       - "${ETCD1_CLIENT_PORT}:2379"
+#       - "${ETCD1_PARTNER_PORT}:2380"
+#     networks:
+#       - host
+#
+#
+#   etcd2:
+#     container_name: etcd2
+#     image:  quay.io/coreos/etcd
+#     command: etcd -name etcd2 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+#     ports:
+#       - "${ETCD2_CLIENT_PORT}:2379"
+#       - "${ETCD2_PARTNER_PORT}:2380"
+#     networks:
+#       - host
+#
+#   etcd3:
+#     container_name: etcd3
+#     image:  quay.io/coreos/etcd
+#     command: etcd -name etcd3 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+#     ports:
+#       - "${ETCD3_CLIENT_PORT}:2379"
+#       - "${ETCD3_PARTNER_PORT}:2380"
+#     networks:
+#       - host
+
+  zipkin:
+    container_name: zipkin
+    hostname: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - host
+
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:management
+    environment:
+      - "RABBITMQ_basic_USER=${RABBITMQ_BASIC_USER}"
+      - "RABBITMQ_basic_PASS=${RABBITMQ_BASIC_PASS}"
+    ports:
+      - "${RABBITMQ_CLIENT_PORT}:5672"
+      - "${RABBITMQ_UI_PORT}:15672"
+    networks:
+      - host
+
+
+
+
+  mysql-manage:
+    container_name: mysql-manage
+    hostname: mysql-manage
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - TZ=${TZ}
+      - PMA_ARBITRARY=1
+      - MYSQL_USER=${MYSQL_MANAGE_USERNAME}               # 设置连接的 Mysql 服务用户名称
+      - MYSQL_PASSWORD=${MYSQL_MANAGE_PASSWORD}           # 设置连接的 Mysql 服务用户密码
+      - MYSQL_ROOT_PASSWORD=${MYSQL_MANAGE_ROOT_PASSWORD} # 设置连接的 Mysql 服务 root 用户密码
+      - PMA_HOST=${MYSQL_MANAGE_CONNECT_HOST}             # 设置连接的 Mysql 服务 host，可以是 Mysql 服务容器的名称，也可以是 Mysql 服务容器的 ip 地址
+      - PMA_PORT=${MYSQL_MANAGE_CONNECT_PORT}             # 设置连接的 Mysql 服务端口号
+    ports:
+      - "${MYSQL_MANAGE_PORT}:80"                         # 设置容器80端口映射指定宿主机端口，用于宿主机访问可视化web
+    depends_on:                                           # 依赖容器
+      - mysql                                             # 在 Mysql 服务容器启动后启动
+    networks:
+      - host
+
+
+  redis-manage:
+    container_name: redis-manage
+    hostname: redis-manage
+    image: erikdubbelboer/phpredisadmin
+    environment:
+      - TZ=${TZ}
+      - ADMIN_USER=${REDIS_MANAGE_USERNAME}           # 设置 Redis 可视化管理的用户名称
+      - ADMIN_PASS=${REDIS_MANAGE_PASSWORD}           # 设置 Redis 可视化管理的用户密码
+#       - REDIS_1_AUTH=${REDIS_ROOT_PASSWORD}          #  输入redis连接密码
+      - REDIS_1_HOST=${REDIS_MANAGE_CONNECT_HOST}     # 设置连接的 Redis 服务 host，可以是 Redis 服务容器的名称，也可以是 Redis 服务容器的 ip 地址
+      - REDIS_1_PORT=${REDIS_MANAGE_CONNECT_PORT}     # 设置连接的 Redis 服务端口号
+    ports:
+      - "${REDIS_MANAGE_PORT}:80"                     # 设置容器80端口映射指定宿主机端口，用于宿主机访问可视化web
+    depends_on:                                       # 依赖容器
+      - redis                                         # 在 Redis 服务容器启动后启动
+    networks:
+      - host
+
+#   etcd-manage:
+#     container_name: etcd-manage
+#     image: deltaprojects/etcdkeeper
+#     environment:
+#       - TZ=${TZ}
+#     ports:
+#       - "${ETCD_MANAGE_PORT}:8080"                    # 设置容器8080端口映射指定宿主机端口，用于宿主机访问可视化web
+#     depends_on:                                       # 依赖容器
+#       - etcd1                                         # 在 etcd 服务容器启动后启动
+#     networks:
+#       - host
+
+
+  zookeeper-manage:
+    container_name: zookeeper-manage
+    hostname: zookeeper-manage
+    image: peterpoker/zkweb:v1.2.1
+    environment:
+      - TZ=${TZ}
+      - ZK_DEFAULT_NODE=${ZKWEB_DEFAULT_NODE}             # 设置连接的 Zookeeper 服务 host，和端口号
+      - USER=${ZKWEB_USER}
+      - PASSOWRD=${ZKWEB_PASSWORD}
+    ports:
+      - "${ZKWEB_PORT}:8080"                         # 设置容器8080端口映射指定宿主机端口，用于宿主机访问可视化web
+    networks:
+      - host

@@ -2,11 +2,11 @@ package service
 
 import (
 	"fmt"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/config"
-	"github.com/FFFcomewhere/sk_object/sk-app/model"
-	"github.com/FFFcomewhere/sk_object/sk-app/service/srv_err"
-	"github.com/FFFcomewhere/sk_object/sk-app/service/srv_limit"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-app/config"
+	"github.com/FFFcomewhere/seckill/sk-app/model"
+	"github.com/FFFcomewhere/seckill/sk-app/service/srv_err"
+	"github.com/FFFcomewhere/seckill/sk-app/service/srv_limit"
 	"log"
 	"math/rand"
 	"time"
@@ -55,6 +55,7 @@ func (s SkAppService) SecKill(req *model.SecRequest) (map[string]interface{}, in
 	//对Map加锁处理
 	//config.SkAppContext.RWSecProductLock.RLock()
 	//defer config.SkAppContext.RWSecProductLock.RUnlock()
+	//黑名单校验 以及 限流
 	var code int
 	err := srv_limit.AntiSpam(req)
 	if err != nil {
@@ -63,12 +64,16 @@ func (s SkAppService) SecKill(req *model.SecRequest) (map[string]interface{}, in
 		return nil, code, err
 	}
 
+	//获取秒杀商品信息
 	data, code, err := SecInfoById(req.ProductId)
 	if err != nil {
 		log.Printf("userId[%d] secInfoById Id failed, req[%v]", req.UserId, req)
 		return nil, code, err
 	}
+	//记录发起请求的时间
+	req.SecTime = time.Now().Unix()
 
+	//将请求推入SecReqChan队列, 该chan会经过redis队列
 	userKey := fmt.Sprintf("%d_%d", req.UserId, req.ProductId)
 	ResultChan := make(chan *model.SecResult, 1)
 	config.SkAppContext.UserConnMapLock.Lock()
@@ -78,6 +83,7 @@ func (s SkAppService) SecKill(req *model.SecRequest) (map[string]interface{}, in
 	//将请求送入通道并推入到redis队列当中
 	config.SkAppContext.SecReqChan <- req
 
+	//启动一个定时器
 	ticker := time.NewTicker(time.Millisecond * time.Duration(conf.SecKill.AppWaitResultTimeout))
 
 	defer func() {
@@ -87,6 +93,7 @@ func (s SkAppService) SecKill(req *model.SecRequest) (map[string]interface{}, in
 		config.SkAppContext.UserConnMapLock.Unlock()
 	}()
 
+	//根据不同结果进行响应
 	select {
 	case <-ticker.C:
 		code = srv_err.ErrProcessTimeout
@@ -169,7 +176,6 @@ func SecInfoById(productId int) (map[string]interface{}, int, error) {
 		status = "second kill is already end"
 		code = srv_err.ErrActiveAlreadyEnd
 		err = fmt.Errorf(status)
-
 	}
 
 	//商品已经被停止或售磬

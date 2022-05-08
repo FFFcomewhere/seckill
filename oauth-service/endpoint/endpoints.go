@@ -3,10 +3,10 @@ package endpoint
 import (
 	"context"
 	"errors"
+	"github.com/FFFcomewhere/seckill/oauth-service/model"
+	"github.com/FFFcomewhere/seckill/oauth-service/service"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
-	"github.com/FFFcomewhere/sk_object/oauth-service/model"
-	"github.com/FFFcomewhere/sk_object/oauth-service/service"
 	"net/http"
 )
 

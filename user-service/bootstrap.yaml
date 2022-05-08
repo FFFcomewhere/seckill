@@ -1,19 +1,20 @@
-
 http:
-  host: localhost
+  host: user-service
   port: 9009
 
 rpc:
-  host: localhost
+  host: user-service
   port: 9108
 
 discover:
-  Host: localhost
+  Host: consul
   port: 8500
-  instanceId: user-service-localhost
+  instanceId: user-service
   serviceName: user
+  weight: 3
+
 
 config:
-  id: config-repo_1
+  id: config-server
   profile: "dev"
   label: "master"

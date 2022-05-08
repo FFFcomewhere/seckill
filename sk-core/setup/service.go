@@ -2,8 +2,8 @@ package setup
 
 import (
 	"fmt"
-	register "github.com/FFFcomewhere/sk_object/pkg/discover"
-	"github.com/FFFcomewhere/sk_object/sk-core/service/srv_redis"
+	register "github.com/FFFcomewhere/seckill/pkg/discover"
+	"github.com/FFFcomewhere/seckill/sk-core/service/srv_redis"
 	"os"
 	"os/signal"
 	"syscall"

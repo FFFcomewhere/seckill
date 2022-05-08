@@ -2,7 +2,7 @@ package loadbalance
 
 import (
 	"errors"
-	"github.com/FFFcomewhere/sk_object/pkg/common"
+	"github.com/FFFcomewhere/seckill/pkg/common"
 	"math/rand"
 )
 

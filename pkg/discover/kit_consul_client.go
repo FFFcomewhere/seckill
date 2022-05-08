@@ -2,7 +2,7 @@ package discover
 
 import (
 	"fmt"
-	"github.com/FFFcomewhere/sk_object/pkg/common"
+	"github.com/FFFcomewhere/seckill/pkg/common"
 	"github.com/go-kit/kit/sd/consul"
 	"github.com/hashicorp/consul/api"
 	"github.com/hashicorp/consul/api/watch"

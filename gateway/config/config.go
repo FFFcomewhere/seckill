@@ -1,8 +1,8 @@
 package config
 
 import (
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
 	"github.com/go-kit/kit/log"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
 	"github.com/spf13/viper"
 	"os"
 )

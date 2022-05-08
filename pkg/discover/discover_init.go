@@ -3,9 +3,9 @@ package discover
 import (
 	"errors"
 	"fmt"
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	"github.com/FFFcomewhere/sk_object/pkg/common"
-	"github.com/FFFcomewhere/sk_object/pkg/loadbalance"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	"github.com/FFFcomewhere/seckill/pkg/common"
+	"github.com/FFFcomewhere/seckill/pkg/loadbalance"
 	uuid "github.com/satori/go.uuid"
 	"log"
 	"net/http"

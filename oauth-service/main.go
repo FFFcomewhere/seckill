@@ -4,17 +4,17 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	localconfig "github.com/FFFcomewhere/seckill/oauth-service/config"
+	"github.com/FFFcomewhere/seckill/oauth-service/endpoint"
+	"github.com/FFFcomewhere/seckill/oauth-service/plugins"
+	"github.com/FFFcomewhere/seckill/oauth-service/service"
+	"github.com/FFFcomewhere/seckill/oauth-service/transport"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	register "github.com/FFFcomewhere/seckill/pkg/discover"
+	"github.com/FFFcomewhere/seckill/pkg/mysql"
 	kitzipkin "github.com/go-kit/kit/tracing/zipkin"
-	localconfig "github.com/FFFcomewhere/sk_object/oauth-service/config"
-	"github.com/FFFcomewhere/sk_object/oauth-service/endpoint"
-	"github.com/FFFcomewhere/sk_object/oauth-service/plugins"
-	"github.com/FFFcomewhere/sk_object/oauth-service/service"
-	"github.com/FFFcomewhere/sk_object/oauth-service/transport"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	register "github.com/FFFcomewhere/sk_object/pkg/discover"
-	"github.com/FFFcomewhere/sk_object/pkg/mysql"
 	"github.com/openzipkin/zipkin-go/propagation/b3"
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
@@ -59,9 +59,8 @@ func main() {
 	srv = service.NewCommentService()
 
 	tokenGranter = service.NewComposeTokenGranter(map[string]service.TokenGranter{
-		"password": service.NewUsernamePasswordTokenGranter("password", userDetailsService, tokenService),
-		"refresh_token": service.NewRefreshGranter("refresh_token", userDetailsService,  tokenService),
-
+		"password":      service.NewUsernamePasswordTokenGranter("password", userDetailsService, tokenService),
+		"refresh_token": service.NewRefreshGranter("refresh_token", userDetailsService, tokenService),
 	})
 
 	tokenEndpoint := endpoint.MakeTokenEndpoint(tokenGranter, clientDetailsService)
@@ -81,16 +80,15 @@ func main() {
 	gRPCCheckTokenEndpoint = kitzipkin.TraceEndpoint(localconfig.ZipkinTracer, "grpc-check-endpoint")(gRPCCheckTokenEndpoint)
 	//tokenEndpoint = plugins.ClientAuthorizationMiddleware(clientDetailsService)(checkTokenEndpoint)
 
-
 	//创建健康检查的Endpoint
 	healthEndpoint := endpoint.MakeHealthCheckEndpoint(srv)
 	healthEndpoint = kitzipkin.TraceEndpoint(localconfig.ZipkinTracer, "health-endpoint")(healthEndpoint)
 
 	endpts := endpoint.OAuth2Endpoints{
-		TokenEndpoint:       tokenEndpoint,
-		CheckTokenEndpoint:  checkTokenEndpoint,
-		HealthCheckEndpoint: healthEndpoint,
-		GRPCCheckTokenEndpoint:gRPCCheckTokenEndpoint,
+		TokenEndpoint:          tokenEndpoint,
+		CheckTokenEndpoint:     checkTokenEndpoint,
+		HealthCheckEndpoint:    healthEndpoint,
+		GRPCCheckTokenEndpoint: gRPCCheckTokenEndpoint,
 	}
 
 	//创建http.Handler

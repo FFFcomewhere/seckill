@@ -2,9 +2,9 @@ package transport
 
 import (
 	"context"
-	"github.com/FFFcomewhere/sk_object/oauth-service/endpoint"
-	"github.com/FFFcomewhere/sk_object/oauth-service/model"
-	"github.com/FFFcomewhere/sk_object/pb"
+	"github.com/FFFcomewhere/seckill/oauth-service/endpoint"
+	"github.com/FFFcomewhere/seckill/oauth-service/model"
+	"github.com/FFFcomewhere/seckill/pb"
 )
 
 func EncodeGRPCCheckTokenRequest(_ context.Context, r interface{}) (interface{}, error) {

@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/FFFcomewhere/sk_object/pb"
+	"github.com/FFFcomewhere/seckill/pb"
 	"github.com/opentracing/opentracing-go"
 	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	"log"
@@ -28,7 +28,7 @@ func genTracerAct(tracer opentracing.Tracer) opentracing.Tracer {
 		return tracer
 	}
 	zipkinUrl := "http://114.67.98.210:9411/api/v2/spans"
-	zipkinRecorder := "localhost:12344"
+	zipkinRecorder := "127.0.0.1:12344"
 	collector, err := zipkin.NewHTTPCollector(zipkinUrl)
 	if err != nil {
 		log.Fatalf("zipkin.NewHTTPCollector err: %v", err)

@@ -11,7 +11,7 @@ func init() {
 	initBootstrapConfig()
 	//读取yaml文件
 	//v := viper.New()
-	fmt.Println("yes2")
+	fmt.Println("yes")
 	//fmt.Println(viper.GetViper())
 	fmt.Println("1")
 
@@ -19,7 +19,6 @@ func init() {
 		fmt.Println("2")
 		fmt.Printf("err:%s\n", err)
 		fmt.Println("3")
-
 	}
 	fmt.Println("4")
 
@@ -41,7 +40,7 @@ func initBootstrapConfig() {
 	//设置读取的配置文件
 	viper.SetConfigName("bootstrap")
 	//添加读取的配置文件路径
-	viper.AddConfigPath("./seckill")
+	viper.AddConfigPath(".")
 
 	//windows环境下为%GOPATH，linux环境下为$GOPATH
 	//viper.AddConfigPath("$GOPATH/src/")
@@ -51,7 +50,7 @@ func initBootstrapConfig() {
 }
 
 func subParse(key string, value interface{}) error {
-	log.Printf("配置文件的前缀为：%v", key)
+	log.Printf("bootstarp 配置文件的前缀为：%v", key)
 	sub := viper.Sub(key)
 	sub.AutomaticEnv()
 	sub.SetEnvPrefix(key)

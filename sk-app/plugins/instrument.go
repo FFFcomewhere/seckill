@@ -3,11 +3,11 @@ package plugins
 import (
 	"context"
 	"errors"
+	"github.com/FFFcomewhere/seckill/sk-app/model"
+	"github.com/FFFcomewhere/seckill/sk-app/service"
 	"github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/metrics"
 	"github.com/juju/ratelimit"
-	"github.com/FFFcomewhere/sk_object/sk-app/model"
-	"github.com/FFFcomewhere/sk_object/sk-app/service"
 	"golang.org/x/time/rate"
 	"time"
 )

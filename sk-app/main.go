@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	"github.com/FFFcomewhere/sk_object/sk-app/setup"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	"github.com/FFFcomewhere/seckill/sk-app/setup"
 )
 
 func main() {

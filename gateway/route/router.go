@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/FFFcomewhere/seckill/gateway/config"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/pkg/client"
+	"github.com/FFFcomewhere/seckill/pkg/discover"
+	"github.com/FFFcomewhere/seckill/pkg/loadbalance"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/go-kit/kit/log"
-	"github.com/FFFcomewhere/sk_object/gateway/config"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/pkg/client"
-	"github.com/FFFcomewhere/sk_object/pkg/discover"
-	"github.com/FFFcomewhere/sk_object/pkg/loadbalance"
 	"github.com/openzipkin/zipkin-go"
 	zipkinhttpsvr "github.com/openzipkin/zipkin-go/middleware/http"
 	"net/http"
@@ -56,6 +56,7 @@ func preFilter(r *http.Request) bool {
 	}
 	oauthClient, _ := client.NewOAuthClient("oauth", nil, nil)
 
+	//检测请求是否包含令牌
 	resp, remoteErr := oauthClient.CheckToken(context.Background(), nil, &pb.CheckTokenRequest{
 		Token: authToken,
 	})
@@ -81,6 +82,7 @@ func (router HystrixRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//第一道过滤 检测url是否正确 同时检测用户是否有权限
 	var err error
 	if reqPath == "" || !preFilter(r) {
 		err = errors.New("illegal request!")

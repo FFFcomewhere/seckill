@@ -3,7 +3,7 @@ package endpoint
 import (
 	"context"
 	"errors"
-	"github.com/FFFcomewhere/sk_object/user-service/service"
+	"github.com/FFFcomewhere/seckill/user-service/service"
 	"github.com/go-kit/kit/endpoint"
 	"reflect"
 )

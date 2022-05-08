@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/FFFcomewhere/sk_object/sk-admin/model"
+	"github.com/FFFcomewhere/seckill/sk-admin/model"
 	"github.com/gohouse/gorose/v2"
 	"log"
 )

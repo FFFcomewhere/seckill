@@ -1,4 +1,4 @@
-create database oauth;
+#create database oauth;
 
 drop table if exists `client_details`;
 CREATE TABLE `client_details`

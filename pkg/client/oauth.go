@@ -2,9 +2,9 @@ package client
 
 import (
 	"context"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/pkg/discover"
-	"github.com/FFFcomewhere/sk_object/pkg/loadbalance"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/pkg/discover"
+	"github.com/FFFcomewhere/seckill/pkg/loadbalance"
 	"github.com/opentracing/opentracing-go"
 )
 
@@ -19,6 +19,7 @@ type OAuthClientImpl struct {
 	tracer      opentracing.Tracer
 }
 
+//进行令牌验证
 func (impl *OAuthClientImpl) CheckToken(ctx context.Context, tracer opentracing.Tracer, request *pb.CheckTokenRequest) (*pb.CheckTokenResponse, error) {
 	response := new(pb.CheckTokenResponse)
 	if err := impl.manager.DecoratorInvoke("/pb.OAuthService/CheckToken", "token_check", tracer, ctx, request, response); err == nil {

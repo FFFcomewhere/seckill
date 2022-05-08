@@ -1,21 +1,21 @@
 http:
-  host: localhost
+  host: oauth-service
   port: 9019
 
 
 rpc:
-  host: localhost
+  host: oauth-service
   port: 9018
 
 
 discover:
-  Host: localhost
+  Host: consul
   port: 8500
   instanceId: oauth-service-localhost
   serviceName: oauth
-  weight: 10
+  weight: 3
 
 config:
-  id: config-repo_1
+  id: config-server
   profile: "dev"
   label: "master"

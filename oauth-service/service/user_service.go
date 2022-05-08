@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/FFFcomewhere/sk_object/oauth-service/model"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/pkg/client"
+	"github.com/FFFcomewhere/seckill/oauth-service/model"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/pkg/client"
 )
 
 var (

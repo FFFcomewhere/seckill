@@ -2,9 +2,9 @@ package client
 
 import (
 	"context"
-	"github.com/FFFcomewhere/sk_object/pb"
-	"github.com/FFFcomewhere/sk_object/pkg/discover"
-	"github.com/FFFcomewhere/sk_object/pkg/loadbalance"
+	"github.com/FFFcomewhere/seckill/pb"
+	"github.com/FFFcomewhere/seckill/pkg/discover"
+	"github.com/FFFcomewhere/seckill/pkg/loadbalance"
 	"github.com/opentracing/opentracing-go"
 )
 

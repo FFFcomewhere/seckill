@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/sk-admin/model"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/sk-admin/model"
 	"github.com/gohouse/gorose/v2"
 	"github.com/samuel/go-zookeeper/zk"
 	"github.com/unknwon/com"
@@ -94,6 +94,7 @@ func (p ActivityServiceImpl) syncToZk(activity *model.Activity) error {
 	secProductInfo.Status = activity.Status
 	secProductInfo.Total = activity.Total
 	secProductInfo.BuyRate = activity.BuyRate
+
 	secProductInfoList = append(secProductInfoList, secProductInfo)
 
 	data, err := json.Marshal(secProductInfoList)

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/FFFcomewhere/sk_object/pkg/bootstrap"
-	conf "github.com/FFFcomewhere/sk_object/pkg/config"
-	"github.com/FFFcomewhere/sk_object/pkg/mysql"
-	"github.com/FFFcomewhere/sk_object/sk-admin/setup"
+	"github.com/FFFcomewhere/seckill/pkg/bootstrap"
+	conf "github.com/FFFcomewhere/seckill/pkg/config"
+	"github.com/FFFcomewhere/seckill/pkg/mysql"
+	"github.com/FFFcomewhere/seckill/sk-admin/setup"
 )
 
 func main() {

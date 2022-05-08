@@ -1,9 +1,8 @@
-module github.com/longjoy/micro-go-book
+module github.com/FFFcomewhere/seckill
 
 go 1.17
 
 require (
-	github.com/FFFcomewhere/sk_object v0.0.0-20220305020746-11b2d7f16551
 	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5
 	github.com/coreos/etcd v3.3.15+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -20,6 +19,7 @@ require (
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/openzipkin-contrib/zipkin-go-opentracing v0.3.5
 	github.com/openzipkin/zipkin-go v0.1.6
+	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.1.0
 	github.com/samuel/go-zookeeper v0.0.0-20190923202752-2cc03de413da
 	github.com/satori/go.uuid v1.2.0

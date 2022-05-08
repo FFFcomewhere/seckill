@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/FFFcomewhere/sk_object/pkg/mysql"
+	"github.com/FFFcomewhere/seckill/pkg/mysql"
 	"github.com/gohouse/gorose/v2"
 	"log"
 )
@@ -11,7 +11,6 @@ type User struct {
 	UserName string `json:"user_name"` //用户名称
 	Password string `json:"password"`  //密码
 	Age      int    `json:"age"`       //年龄
-
 }
 
 type UserModel struct {

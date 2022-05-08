@@ -1,22 +1,22 @@
 http:
-  host: localhost
+  host: gateway
   port: 9090
 
 
 discover:
-  Host: localhost
+  Host: consul
   port: 8500
   instanceId: gateway-service-localhost
   serviceName: gateway
-
+  weight: 3
 
 config:
-  id: config-repo_1
+  id: config-server
   profile: "dev"
   label: "master"
 
 trace:
-  host: localhost
+  host: zipkin
   port: 9411
   url: /api/v2/spans
 
